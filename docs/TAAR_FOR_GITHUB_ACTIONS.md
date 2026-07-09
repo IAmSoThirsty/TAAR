@@ -4,7 +4,7 @@ Two ways to use TAAR against GitHub workflows.
 
 ## 1. Local workflow guardian
 
-    pip install taar-agent-taskforce   # or `pip install .` from a checkout until the PyPI release
+    pip install taar-agent-taskforce
     cd your-repo
     taar workflows explain
     taar workflows scan

@@ -41,19 +41,16 @@ PyPI only serves `pip install taar-agent-taskforce`.
 
 Publishing is automated: `.github/workflows/publish.yml` builds and uploads
 to PyPI via trusted publishing (OIDC, no API token) whenever a GitHub
-Release is published. One-time setup on pypi.org — add a trusted publisher
-with: project `taar-agent-taskforce`, owner `IAmSoThirsty`, repository
-`TAAR`, workflow `publish.yml`, environment `pypi`. Create the matching
-`pypi` environment in the GitHub repo settings.
+Release is published. The trusted publisher is configured on pypi.org
+(project `taar-agent-taskforce`, owner `IAmSoThirsty`, repository `TAAR`,
+workflow `publish.yml`, environment `pypi`) and the `pypi` environment
+exists in the GitHub repo settings.
 
 Manual fallback:
 
     python -m pip install build twine
     python -m build
     python -m twine upload dist/*
-
-After the first PyPI release, remove the "Not yet on PyPI" note in
-README.md and the checkout-install fallback in docs/TAAR_FOR_GITHUB_ACTIONS.md.
 
 ## Version bumps
 
