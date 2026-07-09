@@ -13,7 +13,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: TAAR Workflow Guardian
-        uses: IAmSoThirsty/TAAR-Agent-Taskforce@main
+        uses: IAmSoThirsty/TAAR@v0.1.0
         with:
           category: all
           fail-on-critical: "true"

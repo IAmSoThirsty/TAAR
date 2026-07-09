@@ -16,9 +16,19 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Check Python version
+      shell: bash
+      run: |
+        if ! python -c "import sys; sys.exit(0 if sys.version_info >= (3, 12) else 1)"; then
+          echo "::error::TAAR requires Python >= 3.12. Add a setup step before this action:"
+          echo "::error::  - uses: actions/setup-python@v5"
+          echo "::error::    with:"
+          echo "::error::      python-version: \"3.12\""
+          exit 1
+        fi
     - name: Install TAAR
       shell: bash
-      run: python -m pip install --quiet taar-agent-taskforce
+      run: python -m pip install --quiet "${{ github.action_path }}"
     - name: Explain workflows
       shell: bash
       run: python -m taar.cli workflows explain

@@ -34,8 +34,8 @@ dev = ["pytest>=8.0.0"]
 taar = "taar.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/IAmSoThirsty/TAAR-Agent-Taskforce"
-Issues = "https://github.com/IAmSoThirsty/TAAR-Agent-Taskforce/issues"
+Homepage = "https://github.com/IAmSoThirsty/TAAR"
+Issues = "https://github.com/IAmSoThirsty/TAAR/issues"
 
 [tool.setuptools]
 packages = ["taar", "taar.checks", "taar.writers"]

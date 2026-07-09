@@ -4,7 +4,7 @@ Two ways to use TAAR against GitHub workflows.
 
 ## 1. Local workflow guardian
 
-    pip install taar-agent-taskforce
+    pip install taar-agent-taskforce   # or `pip install .` from a checkout until the PyPI release
     cd your-repo
     taar workflows explain
     taar workflows scan
@@ -31,13 +31,19 @@ bundles (`taar workflows evidence`), seed the repo first with `taar init`.
           - uses: actions/setup-python@v5
             with:
               python-version: "3.12"
-          - uses: IAmSoThirsty/TAAR-Agent-Taskforce@main
+          - uses: IAmSoThirsty/TAAR@v0.1.0
             with:
               category: all
               fail-on-critical: "true"
 
 Inputs: `category` (default all), `fail-on-critical` (default true — the
 job fails if any critical finding is present).
+
+Pin the action to a release tag (`@v0.1.0`), not a branch — the same rule
+TAAR's own scanner enforces for third-party actions. The action installs
+TAAR from its own checkout, so the CLI version always matches the pinned
+tag. Python 3.12+ must already be on the runner (the `setup-python` step
+above); the action fails fast with instructions if it is not.
 
 ## Examples
 

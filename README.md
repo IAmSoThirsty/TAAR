@@ -34,6 +34,10 @@ patch files.
 
     pip install taar-agent-taskforce
 
+Not yet on PyPI — until the first release ships, install from a checkout:
+
+    pip install .
+
 Python 3.12+. Dependencies: pyyaml, typer, rich.
 
 ## Quick start

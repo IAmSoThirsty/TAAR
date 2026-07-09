@@ -3,9 +3,26 @@
 # the explicit -Apply switch. TAAR itself never installs its own schedules.
 param(
     [switch]$Apply,
-    [string]$Repo = (Get-Location).Path
+    [string]$Repo = (Get-Location).Path,
+    [string]$Python = ""
 )
 $ErrorActionPreference = "Stop"
+
+# Task Scheduler runs with a minimal environment, so resolve the full
+# interpreter path now instead of trusting PATH at trigger time. Pass
+# -Python to pick an interpreter other than the first `python` on PATH
+# (it must be 3.12+ with taar installed).
+if ($Python -ne "") {
+    $python = (Get-Command $Python -ErrorAction Stop).Source
+} else {
+    $python = (Get-Command python -ErrorAction SilentlyContinue).Source
+}
+if (-not $python) {
+    throw "python not found on PATH. Install Python 3.12+ and re-run, or pass -Python <path>."
+}
+if ($python -like "*\WindowsApps\*") {
+    throw "python resolves to the Microsoft Store stub ($python), which fails under Task Scheduler. Install Python from python.org or pass -Python <path>."
+}
 
 $schedule = @(
     @{ Agent = "heartbeat-reader";           Minutes = 5 },
@@ -28,10 +45,10 @@ $schedule = @(
 
 foreach ($entry in $schedule) {
     $name = "TAAR-" + $entry.Agent
-    $cmd = "python -m taar.cli run $($entry.Agent) --repo `"$Repo`""
+    $cmd = "`"$python`" -m taar.cli run $($entry.Agent) --repo `"$Repo`""
     if ($Apply) {
-        $action = New-ScheduledTaskAction -Execute "python" -Argument "-m taar.cli run $($entry.Agent) --repo `"$Repo`"" -WorkingDirectory $Repo
-        $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(2) -RepetitionInterval (New-TimeSpan -Minutes $entry.Minutes)
+        $action = New-ScheduledTaskAction -Execute $python -Argument "-m taar.cli run $($entry.Agent) --repo `"$Repo`"" -WorkingDirectory $Repo
+        $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(2) -RepetitionInterval (New-TimeSpan -Minutes $entry.Minutes) -RepetitionDuration ([TimeSpan]::MaxValue)
         Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Description "TAAR governed agent $($entry.Agent)" -Force | Out-Null
         Write-Host "REGISTERED  $name  (every $($entry.Minutes) min)"
     } else {
