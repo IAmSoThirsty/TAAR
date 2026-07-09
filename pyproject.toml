@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "taar-agent-taskforce"
+version = "0.1.0"
+description = "TAAR — Thirsty's Active Agent Runner: a local-first governed agent taskforce for Project-AI, with a GitHub Workflow Guardian."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Jeremy 'Thirsty' Karrick", email = "iamsothirsty@users.noreply.github.com" }]
+keywords = ["governance", "agents", "automation", "audit", "evidence", "github-actions", "security", "project-ai"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Quality Assurance",
+  "Topic :: Security",
+]
+dependencies = [
+  "pyyaml>=6.0.2",
+  "typer>=0.12.5",
+  "rich>=13.9.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0"]
+
+[project.scripts]
+taar = "taar.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/IAmSoThirsty/TAAR-Agent-Taskforce"
+Issues = "https://github.com/IAmSoThirsty/TAAR-Agent-Taskforce/issues"
+
+[tool.setuptools]
+packages = ["taar", "taar.checks", "taar.writers"]
+
+[tool.setuptools.package-dir]
+"taar" = "taar"
+"taar.checks" = "checks"
+"taar.writers" = "writers"
+
+[tool.setuptools.package-data]
+"taar" = ["seed/taar.toml", "seed/registry/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"

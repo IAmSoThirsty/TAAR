@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# TAAR runtime state is local, never committed
+.project-ai/automation/evidence/
+.project-ai/automation/reports/
+.project-ai/automation/digests/
+.project-ai/automation/patches/
+.project-ai/automation/quarantine/
+.project-ai/automation/audit/
+.project-ai/automation/locks/
+.project-ai/automation/cache/
+.project-ai/automation/state.db
